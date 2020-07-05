@@ -1,25 +1,23 @@
-// Import the mount() method from the test utils
-// and the component you want to test
-import { mount } from '@vue/test-utils'
-import Counter from './counter'
+import {mount} from '@vue/test-utils'
+import User from './user'
+import waitForExpect from "wait-for-expect";
 
-describe('Counter', () => {
-  // Now mount the component and you have the wrapper
-  const wrapper = mount(Counter)
+describe('user', () => {
+    // create user with undefined name
+    const user = {
+        name: 'undefined_name',
+    }
 
-  it('renders the correct markup', () => {
-    expect(wrapper.html()).toContain('<span class="count">0</span>')
-  })
-
-  // it's also easy to check for the existence of elements
-  it('has a button', () => {
-    expect(wrapper.contains('button')).toBe(true)
-  })
-
-  it('button should increment the count', () => {
-    expect(wrapper.vm.count).toBe(0)
-    const button = wrapper.find('button')
-    button.trigger('click')
-    expect(wrapper.vm.count).toBe(1)
-  })
+    it('should update rendered html after user fetched', async () => {
+        // mount component that includes user fetching
+        const wrapper = mount(User, {
+            propsData: {
+                value: user,
+            }
+        })
+        // test component's html
+        await waitForExpect(() => {
+            expect(wrapper.text()).toContain('fetched_name')
+        })
+    })
 })
