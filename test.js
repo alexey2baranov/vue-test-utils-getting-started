@@ -1,23 +1,16 @@
-import {mount} from '@vue/test-utils'
-import User from './user'
-import waitForExpect from "wait-for-expect";
+import {mount} from "@vue/test-utils";
+import router from "./router";
+import AppVue from "./AppVue";
 
-describe('user', () => {
-    // create user with undefined name
-    const user = {
-        name: 'undefined_name',
-    }
+let wrapper
 
-    it('should update rendered html after user fetched', async () => {
-        // mount component that includes user fetching
-        const wrapper = mount(User, {
-            propsData: {
-                value: user,
-            }
-        })
-        // test component's html
-        await waitForExpect(() => {
-            expect(wrapper.text()).toContain('fetched_name')
-        })
+beforeEach(async () => {
+    wrapper = mount(AppVue, {
+        router,
     })
+})
+
+it('redirecting inside beforeEach guard', async () => {
+    await wrapper.vm.$router.push({name: 'protected'})
+    expect(wrapper.vm.$route.name).toBe('public')
 })
