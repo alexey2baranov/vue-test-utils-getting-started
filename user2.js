@@ -2,7 +2,7 @@
 
 export default {
     template: `
-      <div>user name: {{ value.name }}</div>
+      <div>user name: {{ value }}</div>
     `,
     props: {
         value: {
@@ -12,8 +12,7 @@ export default {
     async mounted() {
         // fetch user emulation
         console.log('user fetching...')
-        // await new Promise(resolve => setTimeout(resolve, 1000))
-        this.value.name = 'fetched_name'
+        this.value = 'fetched_name'
         console.log('user fetched')
     }
 }
